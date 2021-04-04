@@ -14,7 +14,7 @@ import HeroDetail from '../screens/HeroDetail';
 // Components
 import NavigationBar from '../components/NavigationBar';
 
-const HeroesRouter = () => {
+const HeroesRouter = ({ history }) => {
   return (
     <>
       <NavigationBar />

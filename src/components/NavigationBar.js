@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   IconButton,
@@ -10,16 +10,31 @@ import {
  } from '@material-ui/core';
  import MenuIcon from '@material-ui/icons/Menu';
 
+ import { useHistory } from 'react-router-dom';
+
 // Styles
 import Styles from './navigationBarStyles';
 
 // Components
 import Menu from '../components/DrawerMenu';
 
+// Context
+import AuthContext from '../context/authContext';
+
+// Store
+import TYPES from '../store/actions/types';
+
 const NavigationBar = ({classes}) => {
+  const { user: { name }, dispatch } = useContext(AuthContext);
+  const history = useHistory();
   const [isOpen, setstate] = useState(false);
 
   const toggleDrawer = state => setstate(state);
+
+  const logout = () => {
+    history.replace("/login");
+    dispatch({ type: TYPES.LOGOUT });
+  }
   
   return (
     <div className={classes.root}>
@@ -31,7 +46,10 @@ const NavigationBar = ({classes}) => {
           <Typography variant="h6" color="inherit" className={classes.iconContainer}>
             Heroes App
           </Typography>
-          <Button color="inherit">Logout</Button>
+          <Typography>
+            {name}
+          </Typography>
+          <Button color="inherit" onClick={logout}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Menu isOpen={isOpen} toggleDrawer={toggleDrawer} />
